@@ -1,8 +1,10 @@
 package de.sirunderflow.obfuscation;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtField;
@@ -46,6 +48,60 @@ public class UClass {
 	}
 	
 	
+	public void save() throws NotFoundException, IOException, CannotCompileException {
+		this.ctClass.writeFile();
+	}
+	
+	public String addString(String name, String content) throws CannotCompileException, NotFoundException {
+		CtClass[] args = {};
+		CtMethod m = new CtMethod(ClassPool.getDefault().get("java.lang.String"), name, args, this.ctClass);
+		m.setBody("return \"" + content + "\";");
+		this.ctClass.addMethod(m);
+		return content;
+	}
+	
+	public String addInteger(String name, String content) throws CannotCompileException, NotFoundException {
+		CtClass[] args = {};
+		CtMethod m = new CtMethod(CtClass.intType, name, args, this.ctClass);
+		m.setBody("return \"" + content + "\";");
+		this.ctClass.addMethod(m);
+		return content;
+	}
+	
+	public String addDouble(String name, String content) throws CannotCompileException, NotFoundException {
+		CtClass[] args = {};
+		CtMethod m = new CtMethod(CtClass.doubleType, name, args, this.ctClass);
+		m.setBody("return \"" + content + "\";");
+		this.ctClass.addMethod(m);
+		return content;
+	}
+	
+	public String addFloat(String name, String content) throws CannotCompileException, NotFoundException {
+		CtClass[] args = {};
+		CtMethod m = new CtMethod(CtClass.floatType, name, args, this.ctClass);
+		m.setBody("return \"" + content + "\";");
+		this.ctClass.addMethod(m);
+		return content;
+	}
+	
+	public String addByte(String name, String content) throws CannotCompileException, NotFoundException {
+		CtClass[] args = {};
+		CtMethod m = new CtMethod(CtClass.byteType, name, args, this.ctClass);
+		m.setBody("return \"" + content + "\";");
+		this.ctClass.addMethod(m);
+		return content;
+	}
+	
+	public String addObject(String Object, String name, String content) throws CannotCompileException, NotFoundException {
+		CtClass[] args = {};
+		CtMethod m = new CtMethod(ClassPool.getDefault().get(Object), name, args, this.ctClass);
+		m.setBody("return \"" + content + "\";");
+		this.ctClass.addMethod(m);
+		return content;
+	}
+	
+	
+	
 	public UClass(String className) throws NotFoundException {
 		this.classPath = className;
 		this.ctClass = this.classPool.get(className);
@@ -65,6 +121,16 @@ public class UClass {
 		}
 		return null;
 	}
+	
+	public CtField getField(String name) {
+		for (CtField f : this.getFieldList()) {
+			if (f.getName().equals(name)) {
+				return f;
+			}
+		}
+		return null;
+	}
+	
 	
 	@Override
 	public String toString() {
