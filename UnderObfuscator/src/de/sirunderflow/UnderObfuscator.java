@@ -15,10 +15,7 @@ public class UnderObfuscator {
 			UClass uclass = new UClass("com.test.test");
 			try {
 				System.out.println(uclass.toString());
-				uclass.addString("test1", "test1");
-				uclass.addString("test2", "test2");
-				uclass.addString("test3", "test23");
-				
+				uclass.addIntegerField("Feld", "13");;
 				uclass.save();
 			}
 			catch (Exception e) {

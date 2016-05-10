@@ -52,55 +52,90 @@ public class UClass {
 		this.ctClass.writeFile();
 	}
 	
-	public String addString(String name, String content) throws CannotCompileException, NotFoundException {
+	public void addStringField(String name, String content) throws CannotCompileException, NotFoundException {
+		CtField f = new CtField(ClassPool.getDefault().get("java.lang.String"), name, this.ctClass);
+		f.setAttribute("value", content.getBytes());
+		this.ctClass.addField(f);
+		this.ctClass.getConstructors()[0].insertAfter("{" + "this." + name + " = " + "\"" + content + "\"" + ";" + "}");
+	}
+	
+	public void addIntegerField(String name, String content) throws CannotCompileException, NotFoundException {
+		CtField f = new CtField(CtClass.intType, name, this.ctClass);
+		f.setAttribute("value", content.getBytes());
+		this.ctClass.addField(f);
+		this.ctClass.getConstructors()[0].insertAfter("{" + "this." + name + " = "  + content  + ";" + "}");
+	}
+
+	public void addDoubleField(String name, String content) throws CannotCompileException, NotFoundException {
+		CtField f = new CtField(CtClass.doubleType, name, this.ctClass);
+		f.setAttribute("value", content.getBytes());
+		this.ctClass.addField(f);
+		this.ctClass.getConstructors()[0].insertAfter("{" + "this." + name + " = "  + content  + ";" + "}");
+	}
+
+	public void addFloatField(String name, String content) throws CannotCompileException, NotFoundException {
+		CtField f = new CtField(CtClass.floatType, name, this.ctClass);
+		f.setAttribute("value", content.getBytes());
+		this.ctClass.addField(f);
+		this.ctClass.getConstructors()[0].insertAfter("{" + "this." + name + " = "  + content  + ";" + "}");
+	}
+
+	public void addByteField(String name, String content) throws CannotCompileException, NotFoundException {
+		CtField f = new CtField(CtClass.byteType, name, this.ctClass);
+		f.setAttribute("value", content.getBytes());
+		this.ctClass.addField(f);
+		this.ctClass.getConstructors()[0].insertAfter("{" + "this." + name + " = "  + content  + ";" + "}");
+	}
+
+	public void addObjeftField(String type, String name, String content)
+			throws CannotCompileException, NotFoundException {
+		CtField f = new CtField(ClassPool.getDefault().get(type), name, this.ctClass);
+		f.setAttribute("value", content.getBytes());
+		this.ctClass.addField(f);
+		this.ctClass.getConstructors()[0].insertAfter("{" + "this." + name + " = "  + content  + ";" + "}");
+	}
+	
+	public void addStringMethod(String name, String content) throws CannotCompileException, NotFoundException {
 		CtClass[] args = {};
 		CtMethod m = new CtMethod(ClassPool.getDefault().get("java.lang.String"), name, args, this.ctClass);
 		m.setBody("return \"" + content + "\";");
 		this.ctClass.addMethod(m);
-		return content;
 	}
 	
-	public String addInteger(String name, String content) throws CannotCompileException, NotFoundException {
+	public void addIntegerMethod(String name, String content) throws CannotCompileException, NotFoundException {
 		CtClass[] args = {};
 		CtMethod m = new CtMethod(CtClass.intType, name, args, this.ctClass);
 		m.setBody("return \"" + content + "\";");
 		this.ctClass.addMethod(m);
-		return content;
 	}
 	
-	public String addDouble(String name, String content) throws CannotCompileException, NotFoundException {
+	public void addDoubleMethod(String name, String content) throws CannotCompileException, NotFoundException {
 		CtClass[] args = {};
 		CtMethod m = new CtMethod(CtClass.doubleType, name, args, this.ctClass);
 		m.setBody("return \"" + content + "\";");
 		this.ctClass.addMethod(m);
-		return content;
 	}
 	
-	public String addFloat(String name, String content) throws CannotCompileException, NotFoundException {
+	public void addFloatMethod(String name, String content) throws CannotCompileException, NotFoundException {
 		CtClass[] args = {};
 		CtMethod m = new CtMethod(CtClass.floatType, name, args, this.ctClass);
 		m.setBody("return \"" + content + "\";");
 		this.ctClass.addMethod(m);
-		return content;
 	}
 	
-	public String addByte(String name, String content) throws CannotCompileException, NotFoundException {
+	public void addByteMethod(String name, String content) throws CannotCompileException, NotFoundException {
 		CtClass[] args = {};
 		CtMethod m = new CtMethod(CtClass.byteType, name, args, this.ctClass);
 		m.setBody("return \"" + content + "\";");
 		this.ctClass.addMethod(m);
-		return content;
 	}
 	
-	public String addObject(String Object, String name, String content) throws CannotCompileException, NotFoundException {
+	public void addObjectMethod(String Object, String name, String content) throws CannotCompileException, NotFoundException {
 		CtClass[] args = {};
 		CtMethod m = new CtMethod(ClassPool.getDefault().get(Object), name, args, this.ctClass);
 		m.setBody("return \"" + content + "\";");
 		this.ctClass.addMethod(m);
-		return content;
 	}
-	
-	
 	
 	public UClass(String className) throws NotFoundException {
 		this.classPath = className;
