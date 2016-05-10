@@ -10,6 +10,7 @@ public class test {
 	private int wert2 = 14;
 	private int wert3 = 37;
 	
+	
 	public void haus() {
 		System.out.println("Strings: ");
 		System.out.println(Var1);
