@@ -105,35 +105,35 @@ public class UClass {
 	public void addIntegerMethod(String name, String content) throws CannotCompileException, NotFoundException {
 		CtClass[] args = {};
 		CtMethod m = new CtMethod(CtClass.intType, name, args, this.ctClass);
-		m.setBody("return \"" + content + "\";");
+		m.setBody("return " + content + ";");
 		this.ctClass.addMethod(m);
 	}
 	
 	public void addDoubleMethod(String name, String content) throws CannotCompileException, NotFoundException {
 		CtClass[] args = {};
 		CtMethod m = new CtMethod(CtClass.doubleType, name, args, this.ctClass);
-		m.setBody("return \"" + content + "\";");
+		m.setBody("return " + content + ";");
 		this.ctClass.addMethod(m);
 	}
 	
 	public void addFloatMethod(String name, String content) throws CannotCompileException, NotFoundException {
 		CtClass[] args = {};
 		CtMethod m = new CtMethod(CtClass.floatType, name, args, this.ctClass);
-		m.setBody("return \"" + content + "\";");
+		m.setBody("return " + content + ";");
 		this.ctClass.addMethod(m);
 	}
 	
 	public void addByteMethod(String name, String content) throws CannotCompileException, NotFoundException {
 		CtClass[] args = {};
 		CtMethod m = new CtMethod(CtClass.byteType, name, args, this.ctClass);
-		m.setBody("return \"" + content + "\";");
+		m.setBody("return " + content + ";");
 		this.ctClass.addMethod(m);
 	}
 	
 	public void addObjectMethod(String Object, String name, String content) throws CannotCompileException, NotFoundException {
 		CtClass[] args = {};
 		CtMethod m = new CtMethod(ClassPool.getDefault().get(Object), name, args, this.ctClass);
-		m.setBody("return \"" + content + "\";");
+		m.setBody("return " + content + ";");
 		this.ctClass.addMethod(m);
 	}
 	
