@@ -1,9 +1,11 @@
 package de.sirunderflow.obfuscation;
 
+import de.sirunderflow.utils.RandomGenerator;
+
 public class Encryption {
 	
 	private String key;
-	private String Input;
+	private Object Input;
 	
 	public Encryption(String key) {
 		this.key = key;
@@ -17,17 +19,25 @@ public class Encryption {
 		this.key = key;
 	}
 
-	public String getInput() {
+	public Object getInput() {
 		return Input;
 	}
 
-	public void setInput(String input) {
+	public void setInput(Object input) {
 		Input = input;
 	}
 	
-	public String getEncryptedResult() {
+	public String getEncryptedResult_Integer() {
 		String result = "";
-		char[] chars = this.Input.toCharArray();
+		for (int i = 0; i < (int) this.Input; i++) {
+			result += RandomGenerator.rndString(1);
+		}
+		return result;
+	}
+	
+	public String getEncryptedResult_String() {
+		String result = "";
+		char[] chars = String.valueOf(this.Input).toCharArray();
 		for (int i = 0; i < chars.length; i++) {
 			result += String.valueOf((int) chars[i]) + "%";
 		}

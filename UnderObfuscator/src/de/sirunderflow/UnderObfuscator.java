@@ -22,7 +22,7 @@ public class UnderObfuscator {
 	
 		try {
 			Obfuscation obf = new Obfuscation(new UClass("com.test.test"), "");
-			obf.encryptAllStrings();
+			obf.encryptAllVariables();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

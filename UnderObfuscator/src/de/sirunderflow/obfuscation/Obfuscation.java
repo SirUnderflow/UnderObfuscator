@@ -25,11 +25,13 @@ public class Obfuscation {
 		this.uclass = uclass;
 	}
 	
-	private void addDecryptionMethod() {
+	private void addDecryptionMethods() {
 		try {
-			CtClass[] args = { ClassPool.getDefault().get("java.lang.String") };
-			CtMethod m = new CtMethod(ClassPool.getDefault().get("java.lang.String"), "unobf", args, this.uclass.ctClass);
-			m.setBody(
+			// Strings
+			
+			CtClass[] type_String = { ClassPool.getDefault().get("java.lang.String") };
+			CtMethod m_String = new CtMethod(ClassPool.getDefault().get("java.lang.String"), "DE_String", type_String, this.uclass.ctClass);
+			m_String.setBody(
 					"{" + 
 							"java.lang.String result = \"\";" + 
 							"for (int i = 0; i < $1.split(\"%\").length; i++) {" +
@@ -39,20 +41,40 @@ public class Obfuscation {
 							"}" + 
 							"return result;" + 
 					"}");
-			this.uclass.ctClass.addMethod(m);
+			this.uclass.ctClass.addMethod(m_String);
+			
+			// Integers
+			
+			CtClass[] type_Integer = { ClassPool.getDefault().get("java.lang.String") };
+			CtMethod m_Integer = new CtMethod(CtClass.intType, "DE_Integer", type_Integer, this.uclass.ctClass);
+			m_Integer.setBody(
+					"{" + 
+							"return $1.toCharArray().length;" + 
+					"}");
+			
+			this.uclass.ctClass.addMethod(m_Integer);
+			
+			// TODO: Weitermachen
 		} catch (Exception e) {
 		}
 	}
 	
-	public void encryptAllStrings() throws NotFoundException, CannotCompileException {
-		this.addDecryptionMethod();
+	public void encryptAllVariables() throws NotFoundException, CannotCompileException {
+		this.addDecryptionMethods();
 		try {
 			for (CtField f : this.uclass.getFieldList()) {
+				System.out.println(f.getType().getName());
 				if (f.getType().getName().contains("String")) {
 					String txt = (String) this.uclass.getContentFromField(f.getName());
 					uclass.removeField(f.getName());
 					this.encryption.setInput(txt);
-					uclass.addStringField(f.getName(), "this.unobf(" + "\"" +this.encryption.getEncryptedResult() + "\"" + ")");
+					uclass.addStringField(f.getName(), "this.DE_String(" + "\"" +this.encryption.getEncryptedResult_String() + "\"" + ")");
+				}
+				else if (f.getType().getName().contains("int")) {
+					int number = (int) this.uclass.getContentFromField(f.getName());
+					uclass.removeField(f.getName());
+					this.encryption.setInput(number);
+					uclass.addIntegerField(f.getName(), "this.DE_Integer(" + "\"" +this.encryption.getEncryptedResult_Integer() + "\"" + ")");
 				}
 			}
 			uclass.save();
