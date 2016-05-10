@@ -3,13 +3,15 @@ package com.test;
 public class test {
 	
 	private String Var1 = "Maus";
-	private int Var2 = 133;
-	public double Var3 = 222D;
+	private String Var2 = "Haus";
+	private String Var3 = "Baum";
 	
 	public void haus() {
-		System.out.println(Var1 + Var2 + Var3);
+		System.out.println(Var1);
+		System.out.println(Var2);
+		System.out.println(Var3);
 	}
-
+	  
 	public static void main(String[] args) {
 		(new test()).zwiebel();
 	}
@@ -19,7 +21,7 @@ public class test {
 	}
 	
 	public String lol() {
-		return "TExt";
+		return "TEXT";
 	}
 	
 	

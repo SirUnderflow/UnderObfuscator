@@ -17,6 +17,21 @@ public class UClass {
 	public CtClass ctClass = null;
 	
 	private String classPath;
+	
+	private ArrayList<String> classPahtList = new ArrayList<String>();
+	public ArrayList<String> getClassPathList() {
+		return this.classPahtList;
+	}
+	
+	public void addClassPath(String path) {
+		try {
+			this.classPool.insertClassPath(path);
+			this.getClassPathList().add(path);
+		} catch (NotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public String getClassPath() {
 		return this.classPath;
 	}
@@ -56,7 +71,7 @@ public class UClass {
 		CtField f = new CtField(ClassPool.getDefault().get("java.lang.String"), name, this.ctClass);
 		f.setAttribute("value", content.getBytes());
 		this.ctClass.addField(f);
-		this.ctClass.getConstructors()[0].insertAfter("{" + "this." + name + " = " + "\"" + content + "\"" + ";" + "}");
+		this.ctClass.getConstructors()[0].insertAfter("{" + "this." + name + " = " + content + ";" + "}");
 	}
 	
 	public void addIntegerField(String name, String content) throws CannotCompileException, NotFoundException {
@@ -166,6 +181,17 @@ public class UClass {
 		return null;
 	}
 	
+	public void removeField(String name) {
+		for (CtField f : this.getFieldList()) {
+			if (f.getName().equals(name)) {
+				try {
+					this.ctClass.removeField(f);
+				} catch (NotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	
 	@Override
 	public String toString() {
