@@ -28,8 +28,17 @@ public class Obfuscation {
 	private void addDecryptionMethod() {
 		try {
 			CtClass[] args = { ClassPool.getDefault().get("java.lang.String") };
-			CtMethod m = new CtMethod(ClassPool.getDefault().get("java.lang.String"), "dec_method", args, this.uclass.ctClass);
-			m.setBody("{" + "java.lang.String result = \"\"; for (int i = 0; i < $1.split(\"%\").length; i++) " + "{" + "int charpos = java.lang.Integer.valueOf($1.split(\"%\")[i]); " + "result += java.lang.String.valueOf(charpos);" + "}" +  " return result;" + "}");
+			CtMethod m = new CtMethod(ClassPool.getDefault().get("java.lang.String"), "unobf", args, this.uclass.ctClass);
+			m.setBody(
+					"{" + 
+							"java.lang.String result = \"\";" + 
+							"for (int i = 0; i < $1.split(\"%\").length; i++) {" +
+								"java.lang.String Snumber = $1.split(\"%\")[i];" + 
+								"int number = java.lang.Integer.parseInt(Snumber);" + 
+								"result = result + java.lang.Character.toChars(number);" +
+							"}" + 
+							"return result;" + 
+					"}");
 			this.uclass.ctClass.addMethod(m);
 		} catch (Exception e) {
 		}
@@ -43,7 +52,7 @@ public class Obfuscation {
 					String txt = (String) this.uclass.getContentFromField(f.getName());
 					uclass.removeField(f.getName());
 					this.encryption.setInput(txt);
-					uclass.addStringField(f.getName(), "this.dec_method(" + "\"" +this.encryption.getEncryptedResult() + "\"" + ")");
+					uclass.addStringField(f.getName(), "this.unobf(" + "\"" +this.encryption.getEncryptedResult() + "\"" + ")");
 				}
 			}
 			uclass.save();
